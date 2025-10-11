@@ -1,0 +1,22 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+	
+		Result result = new Result();
+		
+	}
+}
+
+
+class 
+
+
+
+class Result
+{
+	public void printResult(String n)
+	{
+		System.out.println(Thread.currentThread().getName() + "Result" + n);
+	}
+}

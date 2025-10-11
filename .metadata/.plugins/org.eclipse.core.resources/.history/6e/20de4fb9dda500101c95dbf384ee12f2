@@ -1,0 +1,31 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+	
+		Result result = new Result();
+		
+		
+	}
+}
+
+
+class MyThread extends Thread
+{
+	private  Result result;
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	
+	}
+}
+
+
+
+class Result
+{
+	public void printResult(String n)
+	{
+		System.out.println(Thread.currentThread().getName() + "Result" + n);
+	}
+}

@@ -1,0 +1,39 @@
+/**
+ * It is used to perform the Core Java Application BankService - Application
+ * 
+ * @author akashbalkunde
+ * @since 08-Oct-2025
+ * @version 1.0
+ */
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		Customer c = new Customer();
+		c.name = "John";
+		c.address = "pune";
+		c.email = "j@gmail.com";
+		c.age = 22;
+
+		BankService bs = new BankService();
+	}
+
+}
+
+class Customer {
+	String name;
+	String address;
+	String email;
+	int age;
+
+}
+
+class BankService {
+	String openAccount(String name, String address, String email, int age)
+
+	{
+		return "Your account is Opened";
+	}
+
+}

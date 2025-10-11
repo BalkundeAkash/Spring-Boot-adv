@@ -1,0 +1,21 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		Thread t1 =  new Mythread();
+		
+	}
+	
+}
+
+
+class Mythread extends Thread
+{
+	public void run()
+	{
+		System.out.println(Thread.currentThread().getName());
+		
+		System.out.println("This is the Task");
+	}
+}

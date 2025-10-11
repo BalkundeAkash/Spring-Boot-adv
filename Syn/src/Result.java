@@ -1,0 +1,16 @@
+
+public class Result {
+
+	
+	
+	public void printTopperName(String name) {
+		System.out.println(Thread.currentThread().getName() + name);
+		System.out.println(Thread.currentThread().getName() + name);
+		System.out.println(Thread.currentThread().getName() + name);
+		System.out.println(Thread.currentThread().getName() + name);
+		System.out.println(Thread.currentThread().getName() + name);
+		System.out.println(Thread.currentThread().getName() + name);
+		System.out.println(Thread.currentThread().getName() + name);
+		
+	}
+}

@@ -1,0 +1,50 @@
+/**
+ * 
+ *
+ * @author Akash D Balkunde
+ * @since 10-Oct-2025
+ * @time 6:21:36 pm
+ * @version TODO 3.5.6
+ */
+
+public class Test4 {
+
+	public static void main(String[] args) {
+
+		Result result = new Result();
+		
+		
+		Thread t1 = new Thread(result);
+		Thread t2 = new Thread(result);
+		Thread t3 = new Thread(result);
+
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+}
+
+class MyThread extends Thread {
+	
+	private Result result;
+
+	public MyThread(Result result) {
+
+		this.result = result;
+	}
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		result.printResult(10);
+	}
+}
+
+class Result {
+	public void printResult(int n) {
+		System.out.println("Marks is " + n);
+	}
+
+}

@@ -1,0 +1,14 @@
+
+public class Test3 {
+
+	public static void main(String[] args) {
+		
+	}
+}
+
+
+
+class MyEmailThread extends Test3 implements Runnable
+{
+	
+}

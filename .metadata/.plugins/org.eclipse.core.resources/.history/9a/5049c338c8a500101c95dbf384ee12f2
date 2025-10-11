@@ -1,0 +1,19 @@
+
+public class Test3 {
+
+	public static void main(String[] args) {
+		
+		Thread t = new MyEmailThread("Sending message to us cus");
+		
+	}
+}
+
+class MyEmailThread extends Thread implements Runnable {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		System.out.println("task-1");
+	}
+
+}

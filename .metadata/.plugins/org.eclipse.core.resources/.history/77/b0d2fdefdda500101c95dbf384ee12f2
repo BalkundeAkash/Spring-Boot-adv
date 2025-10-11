@@ -1,0 +1,46 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+	
+		Result result = new Result();
+		
+		Thread t1 = new MyThread(result, "10");
+		Thread t2 = new MyThread(result, "10");
+		Thread t3 = new MyThread(result, "10");
+		
+	}
+}
+
+
+class MyThread extends Thread
+{
+	private  Result result;
+	private String number;
+	
+	
+	
+	public MyThread(Result result, String number) {
+		this.result = result;
+		this.number = number;
+	}
+
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	
+		result.printResult(number);
+	}
+}
+
+
+
+class Result
+{
+	public void printResult(String n)
+	{
+		System.out.println(Thread.currentThread().getName() + "Result" + n);
+	}
+}

@@ -1,0 +1,16 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+	}
+}
+
+
+class Result
+{
+	public void printResult(String n)
+	{
+		
+	}
+}

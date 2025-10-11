@@ -1,0 +1,31 @@
+
+public class Test3 {
+
+	public static void main(String[] args) {
+
+		Thread t1 = new MyEmailThread("Sending message to us cus");
+		System.out.println(t1.getPriority());
+		Thread t2 = new MyEmailThread("Sending message to us cus");
+		Thread t3 = new MyEmailThread("Sending message to us cus");
+		Thread t4 = new MyEmailThread("Sending message to us cus");
+		t4.setPriority(10);
+
+	}
+}
+
+class MyEmailThread extends Thread implements Runnable {
+
+	private String message;
+
+	public MyEmailThread(String message) {
+
+		this.message = message;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		System.out.println(Thread.currentThread().getName() + message);
+	}
+
+}

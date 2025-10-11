@@ -1,0 +1,21 @@
+
+public class MyThread  extends Thread{
+
+	private Result result;
+	
+	
+	
+	public MyThread(Result result) {
+		
+		this.result = result;
+	}
+
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	
+	}
+	
+}

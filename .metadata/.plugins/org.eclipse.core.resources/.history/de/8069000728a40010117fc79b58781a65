@@ -1,0 +1,37 @@
+/**
+ * 
+ * @author Akash D Balkunde
+ * @since 08-Oct-2025
+ * @time 2:46:29 pm
+ * @version 3.5.6
+ */
+
+public class Tets1 {
+
+	public static void main(String[] args) {
+		
+		System.out.println(Thread.currentThread().getName());
+		
+		
+		Thread t1  = new Mythread("Send to the India");
+
+	}
+
+}
+
+class Mythreads extends Thread {
+
+	public String message;
+
+	public Mythreads(String message) {
+
+		this.message = message;
+
+	}
+
+	public void run()
+	{
+		System.out.println(Thread.currentThread().getName());
+	}
+	
+}

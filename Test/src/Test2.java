@@ -1,0 +1,20 @@
+
+public class Test2 {
+
+	public static void main(String[] args) {
+
+		Thread t1 = new Mythreadss();
+		t1.setName("MT1");
+		t1.start();
+
+	}
+}
+
+class Mythreadss extends Thread {
+
+	@Override
+	public void run() {
+
+		System.out.println(Thread.currentThread().getName() + "Sending Email to India");
+	}
+}

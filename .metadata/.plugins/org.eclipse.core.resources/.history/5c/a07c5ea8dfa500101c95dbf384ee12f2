@@ -1,0 +1,8 @@
+
+public class Result {
+
+	public void printResult()
+	{
+		
+	}
+}

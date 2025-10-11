@@ -1,0 +1,32 @@
+/**
+ * 
+*
+* @author  Akash D Balkunde
+* @since   08-Oct-2025
+* @time 	12:40:29 pm
+* @version TODO 3.5.6
+*/
+
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		Thread m =  Thread.currentThread();
+			m.getName()
+		
+		
+		Thread t1 = new MyThread();
+		t1.start();
+	}
+	
+}
+
+class MyThread extends Thread
+{
+	public void run()
+	{
+		System.out.println("this is task");
+	}
+	
+}

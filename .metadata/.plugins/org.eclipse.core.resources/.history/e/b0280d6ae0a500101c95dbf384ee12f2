@@ -1,0 +1,12 @@
+
+public class MyThread  extends Thread{
+
+	private Result result;
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	
+	}
+	
+}

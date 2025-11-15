@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Management Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1a73e8;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { margin: 0; font-size: 28px; }
+    .container { display: flex; flex-wrap: wrap; padding: 20px; gap: 20px; justify-content: flex-start; }
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 15px;
+      min-width: 250px;
+    }
+    .title { font-weight: bold; margin-bottom: 10px; }
+    input, select, button { padding: 5px; margin: 5px 0; width: 100%; border-radius: 5px; border: 1px solid #ccc; cursor: pointer; }
+    .beds-container { margin-top: 10px; }
+    .bed { display: flex; justify-content: space-between; padding: 8px; margin: 5px 0; border-left: 5px solid #888; align-items: center; }
+    .bed.vacant { background-color: #e0f7fa; }
+    .bed.occupied { background-color: #ffcdd2; }
+    .bed button { width: auto; padding: 5px 10px; margin-left: 5px; font-size: 12px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Hostel Management Dashboard</h1>
+</header>
+
+<div class="container">
+
+  <!-- Add Hostel Form -->
+  <div class="card">
+    <div class="title">Add Hostel</div>
+    <input type="text" id="hostel-name" placeholder="Hostel Name">
+    <input type="text" id="hostel-address" placeholder="Hostel Address">
+    <button onclick="addHostel()">Add Hostel</button>
+  </div>
+
+  <!-- Add Building Form -->
+  <div class="card">
+    <div class="title">Add Building</div>
+    <select id="building-hostel"></select>
+    <input type="text" id="building-name" placeholder="Building Name">
+    <button onclick="addBuilding()">Add Building</button>
+  </div>
+
+  <!-- Add Floor Form -->
+  <div class="card">
+    <div class="title">Add Floor</div>
+    <select id="floor-building"></select>
+    <input type="text" id="floor-name" placeholder="Floor Name">
+    <button onclick="addFloor()">Add Floor</button>
+  </div>
+
+  <!-- Add Room Form -->
+  <div class="card">
+    <div class="title">Add Room</div>
+    <select id="room-floor"></select>
+    <input type="text" id="room-number" placeholder="Room Number">
+    <input type="number" id="room-total-beds" placeholder="Total Beds">
+    <button onclick="addRoom()">Add Room</button>
+  </div>
+
+  <!-- Add Bed Form -->
+  <div class="card">
+    <div class="title">Add Bed</div>
+    <select id="bed-room"></select>
+    <input type="text" id="bed-number" placeholder="Bed Number">
+    <label>
+      Occupied:
+      <input type="checkbox" id="bed-occupied">
+    </label>
+    <button onclick="addBed()">Add Bed</button>
+  </div>
+
+</div>
+
+<hr>
+
+<div class="container" id="hostel-container">
+  <!-- Dynamic hostel hierarchy will render here -->
+</div>
+
+<script>
+const API_URL = 'http://localhost:8080/api'; // Update if needed
+
+// Fetch hostels, buildings, floors, rooms
+async function fetchData() {
+  const res = await fetch(`${API_URL}/hostels`);
+  const hostels = await res.json();
+  renderHostels(hostels);
+  populateSelects(hostels);
+}
+
+// Populate dropdowns dynamically
+function populateSelects(hostels) {
+  const hostelSelect = document.getElementById('building-hostel');
+  const buildingSelect = document.getElementById('floor-building');
+  const floorSelect = document.getElementById('room-floor');
+  const roomSelect = document.getElementById('bed-room');
+
+  hostelSelect.innerHTML = '';
+  buildingSelect.innerHTML = '';
+  floorSelect.innerHTML = '';
+  roomSelect.innerHTML = '';
+
+  hostels.forEach(h => {
+    hostelSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
+    h.buildings?.forEach(b => {
+      buildingSelect.innerHTML += `<option value="${b.id}">${b.name} (${h.name})</option>`;
+      b.floors?.forEach(f => {
+        floorSelect.innerHTML += `<option value="${f.id}">${f.name} (${b.name})</option>`;
+        f.rooms?.forEach(r => {
+          roomSelect.innerHTML += `<option value="${r.id}">${r.roomNumber} (${f.name})</option>`;
+        });
+      });
+    });
+  });
+}
+
+// Render hostels hierarchy
+function renderHostels(hostels) {
+  const container = document.getElementById('hostel-container');
+  container.innerHTML = '';
+
+  hostels.forEach(hostel => {
+    const hostelDiv = document.createElement('div');
+    hostelDiv.classList.add('card');
+    hostelDiv.innerHTML = `<div class="title">Hostel: ${hostel.name}</div>`;
+
+    hostel.buildings?.forEach(building => {
+      const buildingDiv = document.createElement('div');
+      buildingDiv.classList.add('card');
+      buildingDiv.style.marginLeft = '20px';
+      buildingDiv.innerHTML = `<div class="title">Building: ${building.name}</div>`;
+
+      building.floors?.forEach(floor => {
+        const floorDiv = document.createElement('div');
+        floorDiv.classList.add('card');
+        floorDiv.style.marginLeft = '20px';
+        floorDiv.innerHTML = `<div class="title">Floor: ${floor.name}</div>`;
+
+        floor.rooms?.forEach(room => {
+          const roomDiv = document.createElement('div');
+          roomDiv.classList.add('card');
+          roomDiv.style.marginLeft = '20px';
+          roomDiv.innerHTML = `<div class="title">Room: ${room.roomNumber}</div>`;
+
+          const bedsContainer = document.createElement('div');
+          bedsContainer.classList.add('beds-container');
+
+          room.beds?.forEach(bed => {
+            const bedDiv = document.createElement('div');
+            bedDiv.classList.add('bed', bed.occupied ? 'occupied' : 'vacant');
+            bedDiv.innerHTML = `
+              ${bed.bedNumber} <span>${bed.occupied ? 'Occupied' : 'Vacant'}</span>
+              <div>
+                <button onclick="updateBed(${bed.id}, true)">Occupy</button>
+                <button onclick="updateBed(${bed.id}, false)">Vacate</button>
+              </div>
+            `;
+            bedsContainer.appendChild(bedDiv);
+          });
+
+          roomDiv.appendChild(bedsContainer);
+          floorDiv.appendChild(roomDiv);
+        });
+
+        buildingDiv.appendChild(floorDiv);
+      });
+
+      hostelDiv.appendChild(buildingDiv);
+    });
+
+    container.appendChild(hostelDiv);
+  });
+}
+
+// Bed occupancy update
+async function updateBed(bedId, occupy) {
+  await fetch(`${API_URL}/beds/${bedId}/${occupy ? 'occupy' : 'vacate'}`, {
+    method: 'PUT'
+  });
+  fetchData();
+}
+
+// Add entities functions (same as before)
+async function addHostel() {
+  const name = document.getElementById('hostel-name').value;
+  const address = document.getElementById('hostel-address').value;
+  await fetch(`${API_URL}/hostels`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, address })
+  });
+  fetchData();
+}
+
+async function addBuilding() {
+  const name = document.getElementById('building-name').value;
+  const hostelId = document.getElementById('building-hostel').value;
+  await fetch(`${API_URL}/buildings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, hostel: { id: hostelId } })
+  });
+  fetchData();
+}
+
+async function addFloor() {
+  const name = document.getElementById('floor-name').value;
+  const buildingId = document.getElementById('floor-building').value;
+  await fetch(`${API_URL}/floors`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, building: { id: buildingId } })
+  });
+  fetchData();
+}
+
+async function addRoom() {
+  const roomNumber = document.getElementById('room-number').value;
+  const totalBeds = parseInt(document.getElementById('room-total-beds').value);
+  const floorId = document.getElementById('room-floor').value;
+  await fetch(`${API_URL}/rooms`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ roomNumber, totalBeds, floor: { id: floorId } })
+  });
+  fetchData();
+}
+
+async function addBed() {
+  const bedNumber = document.getElementById('bed-number').value;
+  const occupied = document.getElementById('bed-occupied').checked;
+  const roomId = document.getElementById('bed-room').value;
+  await fetch(`${API_URL}/beds`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bedNumber, occupied, room: { id: roomId } })
+  });
+  fetchData();
+}
+
+// Initial fetch
+fetchData();
+</script>
+</body>
+</html>
